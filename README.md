@@ -51,7 +51,7 @@ ruff check . && ruff format --check .
 python tools/package_skills.py        # writes dist/<skill>.zip
 ```
 
-CI runs the tests on Python 3.10 to 3.13. Pushing a tag `v*` publishes the zips as a release.
+CI runs the tests on Python 3.10 to 3.13. Publishing a GitHub release builds the zips and attaches them to it.
 
 ## License
 

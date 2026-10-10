@@ -1,8 +1,8 @@
 name: Release
 
 on:
-  push:
-    tags: ["v*"]
+  release:
+    types: [published]
 
 permissions:
   contents: write
@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: python tools/package_skills.py
-      - name: Publish the skill zips
+      - name: Attach the skill zips to the release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" dist/*.zip --title "$GITHUB_REF_NAME" --generate-notes
+        run: gh release upload "${{ github.event.release.tag_name }}" dist/*.zip --clobber
