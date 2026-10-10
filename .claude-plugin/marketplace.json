@@ -1,0 +1,40 @@
+{
+  "name": "heide-skills",
+  "description": "Skills for students and note-takers: handwritten notes into Obsidian, lecture material into Anki cards, and exact study-plan solving.",
+  "owner": {
+    "name": "Maurice Heide",
+    "url": "https://github.com/mooofna"
+  },
+  "plugins": [
+    {
+      "name": "paper-to-obsidian",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/paper-to-obsidian"],
+      "description": "Photos or scans of handwritten pages into transcribed, linked Obsidian notes, with open items extracted and a scan-quality archive PDF.",
+      "version": "1.1.0",
+      "license": "MIT",
+      "keywords": ["obsidian", "handwriting", "transcription", "notes", "scanner"]
+    },
+    {
+      "name": "anki-lecture-cards",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/anki-lecture-cards"],
+      "description": "Lecture slides, readings, exercises and old exams into exam-oriented Anki decks built from YAML card files, with an optional formula sheet.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "keywords": ["anki", "flashcards", "spaced-repetition", "exam-preparation", "lectures"]
+    },
+    {
+      "name": "curriculum-solver",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/curriculum-solver"],
+      "description": "Degree and course planning by exact enumeration of every valid study plan, with the price of each rule.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "keywords": ["study-plan", "curriculum", "course-planning", "constraint-solving"]
+    }
+  ]
+}

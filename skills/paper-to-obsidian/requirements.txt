@@ -1,0 +1,12 @@
+# Required
+pillow>=9.4
+
+# Optional: HEIC/HEIF photos (the iPhone default)
+pillow-heif
+
+# Optional: PDF input (without it the pdftoppm command from poppler is used, if installed)
+pypdfium2>=4
+
+# Optional: the document scanner (--scan and --clean); without them both are skipped with a warning
+opencv-python-headless>=4.5
+numpy>=1.21

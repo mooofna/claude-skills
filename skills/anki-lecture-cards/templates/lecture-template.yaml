@@ -1,0 +1,93 @@
+# One file per lecture: <course folder>/Anki/cards/L03.yaml (X01.yaml, X02.yaml ... for material that is not a
+# lecture: old exams, a review session). Source of truth: Anki is built from this file, never the other way round.
+module: LinAlg                 # must equal `module:` in profile.md and the id prefix below
+lecture: L03                   # L01 ... L99, or X01 ...
+title: Singular Value Decomposition
+date: 2026-10-01
+source_pdf: L03-slides.pdf     # the slides, relative to the course folder; slide numbers below are its pages
+# deck_title: SVD              # optional, before the first build only: short label of the lecture subdeck
+# pages: [41, 58]              # optional: only these pages of source_pdf belong to this lecture (a shared script)
+sources_extra:                 # everything else that fed this file (documentation only)
+  - L03-exercise.pdf
+  - L03-solution.pdf
+skipped:                       # every slide without a card needs a reason here
+  - slides: [1, 2, 44]
+    reason: title, outline, references
+  - slides: [30, 31]
+    reason: administrative (project deadlines)
+
+cards:
+  # ---- basic: question and answer ------------------------------------------------------------
+  - id: LinAlg-L03-001         # <Module>-<Lecture>-<3 digits>; never reused, never renumbered
+    type: basic
+    front: |
+      Why does every real matrix have an SVD, while not every square matrix has an eigendecomposition?
+    back: |
+      Because \(A^\top A\) is symmetric positive semidefinite, so the **spectral theorem** always applies;
+      the eigendecomposition needs \(A\) square *and* diagonalisable.
+    extra: |                   # optional, back only: the one insight that helps encoding
+      Two different orthonormal bases (input and output space) versus one basis.
+    source: [12, 13]           # slide numbers the card rests on
+    tags: [type::mechanism, topic::svd]   # exactly one type:: tag; 1 to 3 topic:: tags
+    contrast: [LinAlg-L02-014] # optional: cards this one is deliberately set against
+    # stage: exam             # optional: exam practice (worked old-exam problem, trap that needs routine, or uses a
+    #                         #   later lecture); waits in "<deck>::Exam practice" until its lecture is released
+    # sheet: L03.2            # optional: the formula is printed in summary block L03.2 (Summary/lectures/L03.tex)
+
+  # ---- cloze: the surrounding text is worth re-reading; each deletion is one retrieval --------
+  - id: LinAlg-L03-002
+    type: cloze
+    text: |
+      Eckart-Young-Mirsky: the best rank-\(k\) approximation satisfies
+      \(\|A - A_k\|_2 = {{c1::\sigma_{k+1}}}\) and \(\|A - A_k\|_F = {{c2::\sqrt{\sum_{i>k}\sigma_i^2}}}\).
+    extra: |
+      Both norms are minimised by the same truncation; that is the surprising part.
+    source: [20]
+    tags: [type::theorem, topic::low-rank]
+
+  # ---- figure on the front (interpretation), cut automatically from the slide -----------------
+  - id: LinAlg-L03-003
+    type: basic
+    front: |
+      How do you read the effective rank off this plot of singular values?
+    back: |
+      Count the singular values clearly above the flat noise floor.
+    figure: {slide: 17, candidate: f1}   # candidate ids come from Anki/build/<pdf-stem>/contact/p017.png
+    source: [17]
+    tags: [type::figure, topic::svd]
+
+  # ---- figure with the answer masked on the front, unmasked on the back -----------------------
+  - id: LinAlg-L03-004
+    type: basic
+    front: |
+      Which decomposition needs a square matrix, which always exists, and what bases does each produce?
+    back: |
+      | | Eigen | SVD |
+      |---|---|---|
+      | Shape | square | any |
+      | Exists | not always | always |
+      | Bases | one, not necessarily orthogonal | two orthonormal |
+    figure: {slide: 22, clip: [0.06, 0.20, 0.97, 0.55], mask: [[0.33, 0.0, 1.0, 1.0]]}  # clip: page 0-1; mask: figure 0-1
+    figure_back: {slide: 22, clip: [0.06, 0.20, 0.97, 0.55]}
+    source: [22]
+    tags: [type::contrast, type::figure, topic::svd]
+
+  # ---- from an exercise sheet: a source_ref instead of slide numbers; figure from another PDF --
+  - id: LinAlg-L03-005
+    type: basic
+    front: |
+      What is the rank-1 approximation of \(\begin{pmatrix}3&0\\0&1\end{pmatrix}\), and what is its spectral-norm error?
+    back: |
+      \(A_1 = \begin{pmatrix}3&0\\0&0\end{pmatrix}\), error \(\sigma_2 = 1\).
+    source_ref: "Exercise sheet 3, problem 2"
+    figure_back: {pdf: L03-solution.pdf, slide: 2, clip: [0.1, 0.3, 0.9, 0.6]}
+    tags: [type::example, topic::low-rank]
+
+  # ---- retired: keep the id forever; the build skips it and lists it for deletion in Anki -----
+  - id: LinAlg-L03-006
+    type: basic
+    status: retired
+    front: What is a matrix?
+    back: A rectangular array of numbers.
+    source: [3]
+    tags: [type::definition]

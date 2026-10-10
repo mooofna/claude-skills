@@ -1,0 +1,12 @@
+% The reference: every block (sheetblocks are marked with a filled square), with source pointers.
+\documentclass[10pt,a4paper]{article}
+\newif\ifexamsheet\examsheetfalse
+\input{preamble}
+\input{title}
+\begin{document}
+\noindent{\large\bfseries\SummaryTitle}\hfill{\small built \today}\par
+\noindent{\small\ding{110} = on the exam sheet \quad [\,\dots] = source \quad \ding{55} = typical wrong answer}\par\medskip
+\begin{multicols}{2}
+\InputLectures
+\end{multicols}
+\end{document}

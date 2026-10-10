@@ -1,0 +1,15 @@
+\lecture{L03}{Singular Value Decomposition}
+
+\begin{sheetblock}{L03.1}{Eckart-Young-Mirsky}
+For \(k < r\), \(A_k = \sum_{i \le k} \sigma_i u_i v_i\T\) is the best rank-\(k\) approximation in both
+\(\|\cdot\|_2\) and \(\|\cdot\|_F\):
+\(\|A - A_k\|_2 = \sigma_{k+1}\), \quad \(\|A - A_k\|_F = \sqrt{\sum_{i>k} \sigma_i^2}\).
+\slip{The Frobenius error is \(\sigma_{k+1}\).}
+\src{slide 7}
+\end{sheetblock}
+
+\begin{refblock}{L03.2}{Existence of the SVD}
+\(A\T A = V \Lambda V\T\) by the spectral theorem (\(\lambda_i \ge 0\)); set \(\sigma_i = \sqrt{\lambda_i}\) and
+\(u_i = A v_i / \sigma_i\) for \(\sigma_i > 0\), then complete \(U\) orthonormally.
+\src{slide 4}
+\end{refblock}

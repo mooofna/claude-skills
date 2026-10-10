@@ -1,0 +1,6 @@
+# Settings for the skill's scripts/summary.py
+module: COURSE
+sheet_pages: 2          # pages of the exam sheet (front and back of one A4 sheet = 2)
+min_font_pt: 11         # smallest allowed base font size for a typed sheet
+# share of the sheet each lecture may use, as a guide (e.g. from the exam topic weights); sums to about 1
+targets: {}

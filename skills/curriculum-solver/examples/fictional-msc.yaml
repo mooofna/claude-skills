@@ -1,0 +1,142 @@
+# A fictional two-year master's program, made up to show the config format.
+# Nothing here describes a real university, program or course.
+
+program:
+  name: MSc Applied Data Science (fictional example)
+  credit_unit: ECTS
+  source: "Example University, Program Regulations 2026, Sections 4 to 7; course catalogue 2026/27 (all invented)"
+
+semesters:
+  - {id: Y1-autumn, term: autumn}
+  - {id: Y1-spring, term: spring}
+  - {id: Y2-autumn, term: autumn}
+  - {id: Y2-spring, term: spring}
+
+categories:
+  foundations:
+    name: Foundations
+    min_credits: 18
+    min_courses: 2
+    quote: "At least 18 ECTS are earned in Foundations, from at least two courses (Section 5.1)."
+  methods:
+    name: Methods core
+    min_credits: 12
+    min_courses: 2
+    quote: "At least 12 ECTS are earned in the Methods core, from at least two courses (Section 5.2)."
+  electives:
+    name: Specialisation electives
+    min_credits: 24
+    quote: "At least 24 ECTS are earned in Specialisation electives (Section 5.3)."
+  minor:
+    name: Minor in health data
+    min_credits: 8
+    max_credits: 12
+    min_courses: 2
+    quote: "The minor comprises 8 to 12 ECTS from at least two courses; further minor courses are not credited (Section 5.4)."
+  society:
+    name: Data and society
+    min_credits: 3
+    max_credits: 6
+    quote: "Between 3 and 6 ECTS are earned in Data and society (Section 5.5)."
+  seminar:
+    name: Seminar
+    min_courses: 1
+    max_courses: 1
+    quote: "Students complete exactly one seminar (Section 5.6)."
+  lab:
+    name: Project lab
+    min_credits: 10
+    max_credits: 10
+  thesis:
+    name: Master's thesis
+    min_credits: 30
+    max_credits: 30
+
+courses:
+  # Foundations
+  - {id: FND101, title: Probability and Statistics, credits: 8, category: foundations, offered: autumn}
+  - {id: FND102, title: Linear Algebra and Optimisation, credits: 8, category: foundations, offered: autumn}
+  - {id: FND103, title: Database Systems, credits: 6, category: foundations, offered: autumn}
+  - {id: FND201, title: Algorithms for Large Data, credits: 6, category: foundations, offered: spring}
+  - {id: FND202, title: Statistical Inference, credits: 6, category: foundations, offered: spring}
+  # Methods core
+  - {id: MTH110, title: Machine Learning, credits: 8, category: methods, offered: autumn}
+  - {id: MTH120, title: Causal Inference, credits: 6, category: methods, offered: autumn}
+  - {id: MTH210, title: Deep Learning, credits: 8, category: methods, offered: spring}
+  - {id: MTH220, title: Bayesian Data Analysis, credits: 6, category: methods, offered: spring}
+  - {id: MTH230, title: Time Series Analysis, credits: 4, category: methods, offered: spring}
+  # Specialisation electives (ELE140 may count in the Methods core instead)
+  - {id: ELE110, title: Natural Language Processing, credits: 8, category: electives, offered: autumn}
+  - {id: ELE120, title: Graph Learning, credits: 4, category: electives, offered: autumn, exam: false, tags: [project]}
+  - {id: ELE130, title: Privacy-Preserving Machine Learning, credits: 4, category: electives, offered: autumn}
+  - {id: ELE140, title: Optimisation for Machine Learning, credits: 6, category: [methods, electives], offered: autumn}
+  - {id: ELE150, title: Scientific Computing, credits: 8, category: electives, offered: autumn}
+  - {id: ELE160, title: Data Visualisation, credits: 4, category: electives, exam: false, tags: [project]}
+  - {id: ELE210, title: Computer Vision, credits: 8, category: electives, offered: spring}
+  - {id: ELE220, title: Reinforcement Learning, credits: 6, category: electives, offered: spring}
+  - {id: ELE230, title: Cloud Computing for Data, credits: 6, category: electives, offered: spring, exam: false, tags: [project]}
+  - {id: ELE240, title: Information Retrieval, credits: 6, category: electives, offered: spring}
+  - {id: ELE250, title: Probabilistic Programming, credits: 4, category: electives, offered: spring, exam: false}
+  - {id: ELE260, title: Large Language Models, credits: 6, category: electives, offered: spring}
+  # Minor in health data
+  - {id: MIN110, title: Medical Imaging, credits: 4, category: minor, offered: autumn}
+  - {id: MIN120, title: Genomics Data Analysis, credits: 4, category: minor, offered: autumn, exam: false}
+  - {id: MIN130, title: Health Informatics, credits: 5, category: minor, offered: autumn}
+  - {id: MIN210, title: Epidemiology Methods, credits: 6, category: minor, offered: spring}
+  - {id: MIN220, title: Clinical Decision Support, credits: 3, category: minor, offered: spring, exam: false}
+  # Data and society
+  - {id: SOC110, title: Ethics of AI, credits: 3, category: society, offered: autumn, exam: false}
+  - {id: SOC120, title: Technology and Society, credits: 3, category: society, offered: autumn, exam: false}
+  - {id: SOC130, title: Science Communication, credits: 2, category: society, exam: false}
+  - {id: SOC210, title: Law and Data, credits: 3, category: society, offered: spring, exam: false}
+  # Seminar, lab, thesis
+  - {id: SEM110, title: Seminar in Statistical Learning, credits: 3, category: seminar, offered: autumn, exam: false}
+  - {id: SEM210, title: Seminar in Machine Learning Systems, credits: 3, category: seminar, offered: spring, exam: false}
+  - {id: LAB300, title: Data Science Project Lab, credits: 10, category: lab, exam: false, tags: [project]}
+  - {id: THE400, title: Master's Thesis, credits: 30, category: thesis, offered: spring, exam: false}
+
+rules:
+  total_credits: 120
+  semester_credits: 30
+  max_exams_per_semester: 3
+  limits:
+    first-year foundations:
+      categories: [foundations]
+      semesters: [Y1-autumn, Y1-spring]
+      min_credits: 12
+      quote: "At least 12 ECTS of Foundations are earned in the first year (Section 6.2)."
+  fixed:
+    - {course: THE400, semester: Y2-spring}
+  at_most_one_of:
+    - [FND202, MTH220]   # overlapping content, only one is credited (Section 7.1)
+    - [ELE210, MIN110]   # same reason
+  requires:
+    - {course: MTH210, after: MTH110}
+    - {course: ELE260, after: ELE110}
+
+wishes:
+  - {course: MTH210, weight: 3}
+  - {course: ELE110, weight: 3}
+  - {course: ELE260, weight: 2}
+  - {course: ELE210, weight: 2}
+  - {course: MTH120, weight: 2}
+  - {course: ELE220, weight: 1}
+  - {course: MIN110, weight: 1}
+  - {course: SOC210, weight: 1}
+
+ranking:
+  tie_break: [fewer_exams, even_load]
+  top: 3
+
+variants:
+  - name: four exams per semester
+    description: What a fourth exam per semester would buy.
+    rules: {max_exams_per_semester: 4}
+  - name: no first-year foundations rule
+    description: The price of Section 6.2.
+    rules:
+      limits: {first-year foundations: null}
+  - name: minor up to 15 ECTS
+    categories: {minor: {max_credits: 15}}
+  - name: must keep Large Language Models
+    wishes: {ELE260: {keep: true}}

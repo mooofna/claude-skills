@@ -1,0 +1,13 @@
+% The exam sheet: sheetblocks only, 11 pt, one A4 sheet front and back. Build with scripts/summary.py.
+% Change the font size in \documentclass and the paper size in preamble.tex if your exam's rule differs.
+\documentclass[11pt,a4paper]{article}
+\newif\ifexamsheet\examsheettrue
+\input{preamble}
+\begin{document}
+\hypertarget{sheet-top}{}%
+\begin{multicols}{2}
+\noindent\ding{55}\,= typical wrong answer (distractor)\par
+\InputLectures
+\hypertarget{sheet-end}{}%
+\end{multicols}
+\end{document}

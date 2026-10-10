@@ -1,0 +1,88 @@
+% preamble.tex: shared by sheet.tex (the exam sheet) and reference.tex (the full reference).
+% Built by the skill's scripts/summary.py; course-specific notation macros go at the end.
+% Typed exam sheets usually have a minimum font size (often 11 pt). sheet.tex sets it in \documentclass and
+% summary.yaml (min_font_pt) checks it; lecture files must not change font sizes (summary.py rejects \small,
+% \footnotesize, \scalebox, ...).
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,mathtools}
+\usepackage{txfonts}                 % Times text and math (after amsmath): narrower than Computer Modern
+\usepackage{bm}
+\usepackage[table]{xcolor}
+\usepackage{pifont}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{environ}
+\usepackage{array,booktabs,tabularx}
+\usepackage[hidelinks]{hyperref}
+
+\ifexamsheet
+  \usepackage[a4paper,margin=6mm]{geometry}
+  \setlength{\columnsep}{4mm}
+  \setlength{\columnseprule}{0.3pt}
+\else
+  \usepackage[a4paper,margin=14mm]{geometry}
+  \setlength{\columnsep}{7mm}
+  \setlength{\columnseprule}{0.3pt}
+\fi
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlist{nosep,leftmargin=1.2em,labelsep=0.3em}
+\setlength{\tabcolsep}{2.5pt}
+\renewcommand{\arraystretch}{1.1}
+\makeatletter
+\g@addto@macro\normalsize{%
+  \setlength\abovedisplayskip{2pt plus 1pt}\setlength\belowdisplayskip{2pt plus 1pt}%
+  \setlength\abovedisplayshortskip{1pt}\setlength\belowdisplayshortskip{1pt}}
+\makeatother
+\AtBeginDocument{\normalsize\raggedright}   % ragged: no stretched spaces around inline formulas
+
+% ---------------------------------------------------------------- structure
+% \lecture{L01}{Title}                         section per lecture (anchor lec-L01 for the page budget)
+% \begin{sheetblock}{L01.3}{Title} ... \end{sheetblock}   on the exam sheet and in the reference
+% \begin{refblock}{L01.9}{Title} ... \end{refblock}       reference only
+%   Block ids are never renumbered or reused: cards point at them (sheet: L01.3).
+% \refonly{...}   text printed only in the reference (explanations, pointers)
+% \sheetonly{...} text printed only on the exam sheet (a compressed variant)
+% \src{...}       source pointer, reference only (script theorem, slide numbers)
+% \slip{...}      the typical wrong answer / distractor, marked with a cross
+% \recipe         a procedure: use \begin{steps} ... \end{steps}
+\newcommand{\refonly}[1]{\ifexamsheet\else#1\fi}
+\newcommand{\sheetonly}[1]{\ifexamsheet#1\fi}
+\newcommand{\src}[1]{\refonly{\hfill{\color{black!55}\small[#1]}}}
+\newcommand{\slip}[1]{\ifexamsheet\enspace\else\par\fi{\ding{55}}\,#1\par}
+\ifexamsheet  % run-in heads on the sheet (saves a line per block), full-line heads in the reference
+  \newcommand{\blockhead}[2]{\par\addvspace{2pt}\noindent\mbox{{\color{black!60}#1}\,{\bfseries #2.}}\enspace\ignorespaces}
+\else
+  \newcommand{\blockhead}[2]{\par\addvspace{3pt}\noindent{\bfseries #2}\hfill{\color{black!55}#1}\par\nopagebreak}
+\fi
+\NewEnviron{sheetblock}[2]{\blockhead{#1\refonly{\,\ding{110}}}{#2}\BODY\par}
+\NewEnviron{refblock}[2]{\ifexamsheet\else\blockhead{#1}{#2}\BODY\par\fi}
+\newenvironment{steps}{\begin{enumerate}[label=\arabic*.,leftmargin=1.3em]}{\end{enumerate}}
+\newcommand{\lecture}[2]{\par\addvspace{5pt}\hypertarget{lec-#1}{}\noindent
+  \colorbox{black!13}{\parbox{\dimexpr\linewidth-2\fboxsep}{\bfseries #1\quad #2}}\par\nopagebreak}
+
+% every lectures/Lnn.tex that exists, in order, then every lectures/Xnn.tex (no list to maintain)
+\makeatletter
+\newcount\lec@n
+\newcommand{\InputLectures}{\def\lec@prefix{L}\lec@n=0 \lec@loop\def\lec@prefix{X}\lec@n=0 \lec@loop}
+\newcommand{\lec@loop}{\advance\lec@n by 1
+  \edef\lec@file{lectures/\lec@prefix\two@digits{\lec@n}.tex}%
+  \IfFileExists{\lec@file}{\input{\lec@file}}{}%
+  \ifnum\lec@n<40 \expandafter\lec@loop\fi}
+\makeatother
+\AtBeginDocument{\typeout{SUMMARYGEOM textheight=\the\textheight}}
+
+% ---------------------------------------------------------------- general notation
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\given}{\mid}
+\newcommand{\T}{^{\top}}
+\newcommand{\inv}{^{-1}}
+\newcommand{\iid}{\overset{\text{iid}}{\sim}}
+\newcommand{\indep}{\perp\!\!\!\perp}
+\newcommand{\defeq}{\coloneqq}
+
+% ---------------------------------------------------------------- course-specific notation (below this line)

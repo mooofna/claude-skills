@@ -1,0 +1,122 @@
+module: LinAlg
+lecture: L03
+title: Singular Value Decomposition
+date: 2026-10-01
+source_pdf: L03-slides.pdf
+skipped:
+  - slides: [1, 2, 10]
+    reason: title, outline, summary
+
+cards:
+  - id: LinAlg-L03-001
+    type: basic
+    front: |
+      State the singular value decomposition of a matrix \(A \in \mathbb{R}^{m \times n}\), including the properties of each factor.
+    back: |
+      \[ A = U \Sigma V^\top \]
+      with \(U \in \mathbb{R}^{m\times m}\) and \(V \in \mathbb{R}^{n \times n}\) **orthogonal**, and \(\Sigma\) diagonal with \(\sigma_1 \ge \sigma_2 \ge \dots \ge \sigma_r > 0\), \(r = \operatorname{rank}(A)\).
+    source: [3]
+    tags: [type::definition, topic::svd]
+
+  - id: LinAlg-L03-002
+    type: basic
+    front: |
+      Why does every real matrix have an SVD, while not every square matrix has an eigendecomposition?
+    back: |
+      Because \(A^\top A\) is symmetric positive semidefinite, so the **spectral theorem** always yields \(A^\top A = V\Lambda V^\top\) with \(\lambda_i \ge 0\). Setting \(\sigma_i = \sqrt{\lambda_i}\) and \(u_i = A v_i / \sigma_i\) constructs the SVD. An eigendecomposition needs \(A\) square *and* diagonalisable.
+    extra: |
+      The SVD works with two different orthonormal bases (input and output space); the eigendecomposition insists on one basis, which is why it can fail.
+    source: [4]
+    tags: [type::mechanism, topic::svd]
+    contrast: [LinAlg-L03-005]
+
+  - id: LinAlg-L03-003
+    type: cloze
+    text: |
+      Eckart-Young-Mirsky: for \(k < r\) the best rank-\(k\) approximation of \(A\) in both Frobenius and spectral norm is \(A_k = \sum_{i \le k} \sigma_i u_i v_i^\top\), with errors
+      \(\|A - A_k\|_2 = {{c1::\sigma_{k+1} }}\) and \(\|A - A_k\|_F = {{c2::\sqrt{\sum_{i>k} \sigma_i^2} }}\).
+    source: [7]
+    sheet: L03.1
+    tags: [type::theorem, topic::low-rank, exam::core]
+
+  - id: LinAlg-L03-004
+    type: basic
+    front: |
+      The two curves show singular values of a smooth signal and of a noisy signal. How do you read the **effective rank** off this plot?
+    back: |
+      Count the singular values that lie clearly above the flat noise floor; the smooth curve decays exponentially, so its effective rank is small, while the noisy tail stays flat and contributes no structure.
+    figure: {slide: 5, candidate: f1}
+    source: [5]
+    tags: [type::figure, topic::svd, topic::numerics]
+
+  - id: LinAlg-L03-005
+    type: basic
+    front: |
+      Complete the comparison: which decomposition requires a square matrix, which always exists, and what kind of bases does each produce?
+    back: |
+      | | Eigen | SVD |
+      |---|---|---|
+      | Matrix shape | square | any |
+      | Always exists | no | yes |
+      | Basis | eigenvectors (not necessarily orthogonal) | two orthonormal bases |
+    figure: {slide: 8, candidate: f1, mask: [[0.33, 0.0, 1.0, 1.0]]}
+    figure_back: {slide: 8, candidate: f1}
+    source: [8]
+    tags: [type::contrast, type::figure, topic::svd]
+    contrast: [LinAlg-L03-002]
+
+  - id: LinAlg-L03-006
+    type: basic
+    front: |
+      Why should the SVD never be computed by forming \(A^\top A\) explicitly?
+    back: |
+      Because \(\kappa(A^\top A) = \kappa(A)^2\): squaring the condition number pushes the small singular values below floating-point resolution, so they are lost. Use Golub-Kahan bidiagonalisation (LAPACK `gesvd`/`gesdd`) instead.
+    source: [9]
+    tags: [type::pitfall, topic::numerics]
+
+  - id: LinAlg-L03-007
+    type: basic
+    front: |
+      Derive the spectral-norm error of the best rank-\(k\) approximation, \(\|A - A_k\|_2 = \sigma_{k+1}\).
+    back: |
+      Start from the SVD and subtract the truncated sum:
+      \[\begin{aligned}
+      A - A_k &= \sum_{i=1}^{r} \sigma_i u_i v_i^\top - \sum_{i=1}^{k} \sigma_i u_i v_i^\top \\
+              &= \sum_{i=k+1}^{r} \sigma_i u_i v_i^\top .
+      \end{aligned}\]
+      Applying that the spectral norm of a matrix given by its SVD is its largest singular value: the remaining singular values are \(\sigma_{k+1} \ge \dots \ge \sigma_r\), hence \(\|A - A_k\|_2 = \sigma_{k+1}\).
+    source: [7]
+    tags: [type::derivation, topic::low-rank]
+
+  # retired: the id stays in the file forever; the build skips the card and lists it for deletion in Anki
+  - id: LinAlg-L03-008
+    type: basic
+    status: retired
+    front: What is a matrix?
+    back: A rectangular array of numbers.
+    source: [3]
+    tags: [type::definition]
+
+  - id: LinAlg-L03-009
+    type: basic
+    front: |
+      What does centering the data matrix \(X\) (subtracting column means) change about the meaning of its SVD?
+    back: |
+      After centering, the right singular vectors are the **principal components**: \(X^\top X / (n-1)\) is the covariance matrix, so the SVD of centered \(X\) is PCA.
+    figure_back: {slide: 6, candidate: f1}
+    source: [6]
+    tags: [type::mechanism, topic::pca]
+
+  - id: LinAlg-L03-010
+    type: basic
+    front: |
+      \(A\) has singular values 5, 3 and 1. What are the spectral-norm and the Frobenius-norm error of its best rank-1 approximation?
+    back: |
+      Spectral norm: \(\sigma_2 = 3\). Frobenius norm: \(\sqrt{\sigma_2^2 + \sigma_3^2} = \sqrt{9 + 1} = \sqrt{10}\).
+    extra: |
+      The exam's distractor gives 3 for both; only the spectral error is a single singular value.
+    source: [7]
+    source_ref: "Exam 2024 Q2"
+    stage: exam
+    tags: [type::example, topic::low-rank]
+    contrast: [LinAlg-L03-003]

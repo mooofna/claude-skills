@@ -1,0 +1,10 @@
+# Needed by the scripts in scripts/ (Python 3.10 or newer)
+genanki>=0.13.1
+pymupdf>=1.24.3          # the `pymupdf` module name exists from 1.24.3 on
+markdown>=3.5
+pyyaml>=6
+pillow>=10
+
+# Optional, not installed by this file:
+#   playwright>=1.40   for `proof_sheet.py --check`; afterwards run `playwright install chromium`
+#   a LaTeX installation with pdflatex (TeX Live, MiKTeX, MacTeX) for summary.py
